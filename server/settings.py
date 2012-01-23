@@ -1,7 +1,6 @@
 import json
 class SettingsLookup(type):
     def __getattr__(self, name):
-        print name
         if name.startswith("_"):
             return None
         f = open('settings.json','r')

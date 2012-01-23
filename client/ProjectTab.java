@@ -130,7 +130,11 @@ public class ProjectTab extends JPanel {
 		projectList.put(curAct, new ProjectInfo(curAct, null));
 		for(ProjectInfo curProj : projects)
 		{
-			projectList.put(curProj.getName(), curProj);
+			//Modification to only show the current project
+			if(curProj.getName().equals(curAct))
+			{
+				projectList.put(curProj.getName(), curProj);
+			}
 		}
 		Object[] options = projectList.values().toArray(); 
 		final JComboBox jcb = new JComboBox(options);

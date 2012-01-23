@@ -114,6 +114,7 @@ public class ProjectInfo {
 					
 					unzipDirectory(zipFile);
 					file = newDir;
+					runFile();
 					
 				}};
 			
@@ -124,8 +125,12 @@ public class ProjectInfo {
 			Communicator.get().request("getactivity", obj);
 		}else
 		{
-			
+			runFile();
 		}
+		
+	}
+	private void runFile()
+	{
 		Runtime runtime = Runtime.getRuntime();
 		try {
 			runtime.exec(Options.get().readOption("bluej") + " package.bluej", null, file);

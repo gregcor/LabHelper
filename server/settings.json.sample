@@ -3,5 +3,6 @@
     "path": "/tmp/",
     "activityfile": "/home/gcordts/wstest/test.zip",
     "adminpassword": "",
-    "rosterfile": "/home/gcordts/wstest/roster.txt"
+    "rosterfile": "/home/gcordts/wstest/roster.txt",
+    "port": "80"
 }

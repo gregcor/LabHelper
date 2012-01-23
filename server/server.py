@@ -2,9 +2,8 @@ from twisted.internet import reactor, protocol
 from twisted.protocols.basic import LineReceiver
 from broadcast import Broadcast
 from dispatcher import Dispatcher
+from settings import Settings
 import json
-
-PORT = 8000
 
 class CommandServer(protocol.Protocol):
     def connectionMade(self):
@@ -43,7 +42,7 @@ class Response():
 def main():
     factory = protocol.ServerFactory()
     factory.protocol = CommandServer
-    reactor.listenTCP(PORT, factory)
+    reactor.listenTCP(int(Settings.port), factory)
     reactor.run()
     
 if __name__=="__main__":

@@ -148,6 +148,8 @@ public class ProjectTab extends JPanel {
 					return;
 				}
 				ProjectInfo chosen = (ProjectInfo) jcb.getSelectedItem();
+				if(chosen.getName()==null)
+					return;
 				chosen.launchProject();
 			}});
 		projectPanel.add(okButton);

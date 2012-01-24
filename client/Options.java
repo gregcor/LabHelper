@@ -54,6 +54,13 @@ public class Options {
 			e.printStackTrace();
 			return null;
 		}
+		try {
+			br.close();
+			fr.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Object obj = JSONValue.parse(fileContents.toString());
 		return (JSONObject) obj;
 	}

@@ -132,8 +132,16 @@ public class ProjectInfo {
 	private void runFile()
 	{
 		Runtime runtime = Runtime.getRuntime();
+		String bluejLoc = Options.get().readOption("bluej");
 		try {
-			runtime.exec(Options.get().readOption("bluej") + " package.bluej", null, file);
+			if(bluejLoc.endsWith(".exe")){
+				String toExec = bluejLoc + " \"" + file.getAbsolutePath() + "\\package.bluej\"";
+				runtime.exec(toExec);
+			}else
+			{
+				runtime.exec(bluejLoc + " package.bluej", null, file);
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

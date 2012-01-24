@@ -35,23 +35,32 @@ public class LoginPanel extends JPanel{
 			JButton okayButton = new JButton("OK");
 			okayButton.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent arg0) {
+					LabHelperFrame.get().startProgress();
 					HashMap<String,String> toStore = new HashMap<String,String>();
 					toStore.put("fname", fname.getText());
 					toStore.put("lname", lname.getText());
 					toStore.put("uname", uname.getText());
 					Options.get().storeOption(toStore);
 					readConfigFile();
-					doLogin();
+					new Thread(new Runnable(){
+						public void run() {
+							doLogin();
+						}}).start();
+
 				}});
 			add(okayButton);
 			
 		}else
 		{
-			doLogin();
+			new Thread(new Runnable(){
+						public void run() {
+							doLogin();
+						}}).start();
 		}
 	}
 	private void doLogin()
 	{
+		this.removeAll();
 		UserInfo uinfo = UserInfo.get();
 		setLayout(new GridLayout(2,1));
 		add(new JLabel("Name"));

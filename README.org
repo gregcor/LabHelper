@@ -12,6 +12,13 @@ Note that in its current state, this is fairly minimal and does what I need it t
 - Remotely lock and unlock client computers
 - Serve pre-configured packages to clients that can be easily downloaded and worked on.
 
+* Author Information
+Greg Cordts
+
+greg -at- gregcor.com
+
+http://gregcor.com
+
 
 * Server
 The server is written in Python 2.7+ and depends on Twisted (not included)
@@ -35,12 +42,6 @@ Config is generated at runtime. You need to change CSTRLOC in Uploader.java to p
 where IP and PORT are the hostname and port of the server.
 
 Recompile and distribute the JAR file.
-
-* Author Information
-Greg Cordts
-greg -at- gregcor.com
-http://gregcor.com
-
 
 * License
 ** Bundled Dependencies

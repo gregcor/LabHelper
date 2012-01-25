@@ -6,9 +6,12 @@ The client is configured to assume that the client will be using bluej (http://b
 Note that in its current state, this is fairly minimal and does what I need it to do. I welcome improvements.
 
 ** Features
+- Uploads client computer's project to server for easy browsing
 - Remotely send alert messages and urls via admin.py script in server
 - Save attendance list to disk from admin
-- 
+- Remotely lock and unlock client computers
+- Serve pre-configured packages to clients that can be easily downloaded and worked on.
+
 
 * Server
 The server is written in Python 2.7+ and depends on Twisted (not included)

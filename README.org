@@ -1,7 +1,13 @@
 * LabHelper
+* Author Information
+Greg Cordts (greg -at- gregcor.com)
+
+[[http://gregcor.com]]
+
+* Description
 Tool for assisting in Lab instruction. Allows instructor to send commands to user's computer for alert and lock, and automatically uploads user files while being worked on to allow instructor to monitor progress in near real-time.
 
-The client is configured to assume that the client will be using bluej (http://bluej.org), as that is the software used for the course this tool was designed for. This can be easily changed in code.
+The client is configured to assume that the client will be using bluej ([[http://bluej.org]]), as that is the software used for the course this tool was designed for. This can be easily changed in code.
 
 Note that in its current state, this is fairly minimal and does what I need it to do. I welcome improvements.
 
@@ -11,14 +17,6 @@ Note that in its current state, this is fairly minimal and does what I need it t
 - Save attendance list to disk from admin
 - Remotely lock and unlock client computers
 - Serve pre-configured packages to clients that can be easily downloaded and worked on.
-
-* Author Information
-Greg Cordts
-
-greg -at- gregcor.com
-
-http://gregcor.com
-
 
 * Server
 The server is written in Python 2.7+ and depends on Twisted (not included)
@@ -36,17 +34,14 @@ Stored in settings.json. Re-read at each access, so can be changed while server 
 The client is written in Java and depends on the jars in the deps/ folder being in the classpath.
 
 ** Configuration
-Config is generated at runtime. You need to change CSTRLOC in Uploader.java to points to a text file of the format: 
-=IP=
-=PORT=
-where IP and PORT are the hostname and port of the server.
+Config is generated at runtime. You need to change CSTRLOC in Uploader.java to points to a text file of the format: =IP\nPORT\n= where IP and PORT are the hostname and port of the server.
 
 Recompile and distribute the JAR file.
 
 * License
 ** Bundled Dependencies
-- Apache Codec is distributed under Apache 2.0 License (http://commons.apache.org/codec/license.html)
-- json-simple is under the Apache 2.0 License (http://code.google.com/p/json-simple/)
+- Apache Codec is distributed under Apache 2.0 License ([[http://commons.apache.org/codec/license.html]])
+- json-simple is under the Apache 2.0 License ([[http://code.google.com/p/json-simple/]])
 ** Project License
 This software is licensed under the *MIT License*.
 

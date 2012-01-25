@@ -30,8 +30,6 @@ import org.json.simple.JSONObject;
 
 
 public class Uploader {
-	// Connection string for FTP server. Can be hard coded.
-	public static String FTPSERVER = "";
 	// Connection string to file containing a connection string for the FTP server.
 	public static final String CSTRLOC = "http://dl.dropbox.com/u/1031798/lab-connection.txt";
 

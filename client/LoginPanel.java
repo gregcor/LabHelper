@@ -13,8 +13,17 @@ import java.util.HashMap;
 import org.json.simple.*;
 
 import javax.swing.*;
+/**
+ * GUI interface for logging in - also responsible for reading
+ * existing config file if one exists
+ * @author gcordts
+ *
+ */
 public class LoginPanel extends JPanel{
 	
+	/**
+	 * Construct a new login panel
+	 */
 	public LoginPanel()
 	{
 		super();
@@ -35,32 +44,26 @@ public class LoginPanel extends JPanel{
 			JButton okayButton = new JButton("OK");
 			okayButton.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent arg0) {
-					LabHelperFrame.get().startProgress();
 					HashMap<String,String> toStore = new HashMap<String,String>();
 					toStore.put("fname", fname.getText());
 					toStore.put("lname", lname.getText());
 					toStore.put("uname", uname.getText());
 					Options.get().storeOption(toStore);
 					readConfigFile();
-					new Thread(new Runnable(){
-						public void run() {
-							doLogin();
-						}}).start();
-
+					doLogin();
 				}});
 			add(okayButton);
 			
 		}else
 		{
-			new Thread(new Runnable(){
-						public void run() {
-							doLogin();
-						}}).start();
+			doLogin();
 		}
 	}
+	/**
+	 * Store contents of UserInfo object in the tab's GUI
+	 */
 	private void doLogin()
 	{
-		this.removeAll();
 		UserInfo uinfo = UserInfo.get();
 		setLayout(new GridLayout(2,1));
 		add(new JLabel("Name"));
@@ -74,7 +77,9 @@ public class LoginPanel extends JPanel{
 		obj.put("uname", uinfo.getUname());
 		Communicator.get().request("login", obj);
 	}
-	
+	/**
+	 * Read existing UserInfo from config file.
+	 */
 	private static void readConfigFile()
 	{
 		String fname = Options.get().readOption("fname");

@@ -30,6 +30,8 @@ import org.json.simple.JSONObject;
 
 
 public class Uploader {
+	// Connection string for FTP server. Can be hard coded.
+	public static String FTPSERVER = "";
 	// Connection string to file containing a connection string for the FTP server.
 	public static final String CSTRLOC = "http://dl.dropbox.com/u/1031798/lab-connection.txt";
 
@@ -156,6 +158,10 @@ public class Uploader {
 			return toTrim.getPath();
 		}
 	}
+	/**
+	 * Make request to actually upload file
+	 * @param data JSON string containing base-64 encoded file
+	 */
 	private static void uploadFile(String data)
 	{
 		System.out.println("length: " + data.length());

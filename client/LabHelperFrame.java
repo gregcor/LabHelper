@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +8,18 @@ import javax.swing.*;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-
+/**
+ * Frame for client application
+ * @author gcordts
+ *
+ */
 public class LabHelperFrame extends JFrame {
+	//Singleton instance
 	private static LabHelperFrame instance;
+	/**
+	 * Get a LabHelperFrame
+	 * @return the singleton LabHelperFrame instance
+	 */
 	public static LabHelperFrame get()
 	{
 		if(instance==null)
@@ -20,28 +28,13 @@ public class LabHelperFrame extends JFrame {
 		}
 		return instance;
 	}
-	private JProgressBar progress;
-	public void startProgress()
-	{
-		progress.setIndeterminate(true);
-		progress.setVisible(true);
-		repaint();
-	}
-	public void stopProgress()
-	{
-		progress.setVisible(false);
-		progress.setIndeterminate(false);
-		repaint();
-	}
 	private LabHelperFrame()
 	{
-		super("LabHelper - Not Logged In");
+		super("LabHelper... Connecting");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		final LabHelperFrame self = this;
-		final JTabbedPane tabs = new JTabbedPane();
-		this.add(tabs, BorderLayout.CENTER);
-		this.setMinimumSize(new Dimension(300,200));
+		
 		InputHandler.get().registerInput("loggedin", new InputProcessor(){
 			public void processInput(JSONObject input) {
 				String fname = (String)input.get("fname");
@@ -51,19 +44,27 @@ public class LabHelperFrame extends JFrame {
 				Options.get().storeOption("activity", activity);
 				UserInfo.create(fname, lname, uname);
 				self.setTitle("LabHelper - Logged in as "+uname);
-				stopProgress();
-				tabs.addTab("Project Info", makeProjectTab());
 			}});
-		progress = new JProgressBar();
-		this.add(progress, BorderLayout.SOUTH);		
+		
+		JTabbedPane tabs = new JTabbedPane();
+		this.add(tabs, BorderLayout.CENTER);
 		tabs.addTab("User Info",makeLoginTab());
+		tabs.addTab("Project Info", makeProjectTab());
 		//tabs.addTab("Debug", makeDebugTab());
 		this.pack();
 	}
+	/**
+	 * Get login tab
+	 * @return The login Panel
+	 */
 	private JPanel makeLoginTab()
 	{
 		return new LoginPanel();
 	}
+	/**
+	 * Get the project data tab
+	 * @return The project data tab
+	 */
 	private static JPanel makeProjectTab()
 	{
 		return new ProjectTab();

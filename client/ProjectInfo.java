@@ -19,27 +19,53 @@ import java.util.zip.ZipInputStream;
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.json.simple.JSONObject;
 
-
+/**
+ * Represents info we currently have about project
+ * @author gcordts
+ *n
+ */
 public class ProjectInfo {
+	//Project location on disk (null if not downloaded yet)
 	private File file;
+	//Name of project
 	private String name;
+	/**
+	 * Construct a new project
+	 * @param name Project name
+	 * @param path Path on disk
+	 */
 	public ProjectInfo(String name, File path)
 	{
 		file = path;
 		this.name = name;
 	}
+	/**
+	 * Get the project path
+	 * @return the project path, or null if not downloaded yet
+	 */
 	public File getPath()
 	{
 		return file;
 	}
+	/**
+	 * Get the name of the project
+	 * @return
+	 */
 	public String getName()
 	{
 		return name;
 	}
+	/**
+	 * Return project name for menus
+	 */
 	public String toString()
 	{
 		return getName();
 	}
+	/**
+	 * Unzip project directory in place and delete original
+	 * @param toUnzip File to unzip
+	 */
 	private static void unzipDirectory(File toUnzip)
 	{
 		try {
@@ -77,6 +103,9 @@ public class ProjectInfo {
 		}
 		
 	}
+	/**
+	 * Download project if necessary, then open it.
+	 */
 	public void launchProject()
 	{
 		if(file==null)
@@ -129,19 +158,14 @@ public class ProjectInfo {
 		}
 		
 	}
+	/**
+	 * Open project file in correct editor
+	 */
 	private void runFile()
 	{
 		Runtime runtime = Runtime.getRuntime();
-		String bluejLoc = Options.get().readOption("bluej");
 		try {
-			if(bluejLoc.endsWith(".exe")){
-				String toExec = bluejLoc + " \"" + file.getAbsolutePath() + "\\package.bluej\"";
-				runtime.exec(toExec);
-			}else
-			{
-				runtime.exec(bluejLoc + " package.bluej", null, file);
-			}
-			
+			runtime.exec(Options.get().readOption("bluej") + " package.bluej", null, file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

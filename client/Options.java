@@ -11,10 +11,17 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-
+/**
+ * Utility class for reading config file data
+ * @author gcordts
+ *
+ */
 public class Options {
+	//Path to config file relative to home directory
 	private static final String CONFIGFILE = ".labhelper.settings";
+	//Singleton instance
 	private static Options instance;
+	//Get a singleton instance
 	public static Options get()
 	{
 		if(instance==null)
@@ -23,12 +30,20 @@ public class Options {
 		}
 		return instance;
 	}
+	/**
+	 * Get the config file object
+	 * @return Config file object
+	 */
 	private static File getConfigFile()
 	{
 		String homePath = System.getProperty("user.home");
 		File config = new File(homePath, CONFIGFILE);
 		return config;
 	}
+	/**
+	 * Read entire current options file
+	 * @return JSON of current options
+	 */
 	public JSONObject getCurrentOptions()
 	{
 		File config = getConfigFile();
@@ -54,28 +69,35 @@ public class Options {
 			e.printStackTrace();
 			return null;
 		}
-		try {
-			br.close();
-			fr.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		Object obj = JSONValue.parse(fileContents.toString());
 		return (JSONObject) obj;
 	}
+	/**
+	 * Read an option from disk - rereads file at each time
+	 * @param key Key to lookup
+	 * @return The options corresponding string value
+	 */
 	public String readOption(String key)
 	{
 		JSONObject jobj = getCurrentOptions();
 		if(jobj==null) return null;
 		return (String)jobj.get(key);
 	}
+	/**
+	 * Store an option and immediately write to disk
+	 * @param key key to store
+	 * @param value value to store
+	 */
 	public void storeOption(String key, String value)
 	{
 		HashMap<String,String> hm = new HashMap<String,String>();
 		hm.put(key, value);
 		storeOption(hm);
 	}
+	/**
+	 * Store multiple options to disk
+	 * @param vals KV pair of keys to values
+	 */
 	public void storeOption(Map<String, String> vals)
 	{
 		JSONObject jobj = getCurrentOptions();

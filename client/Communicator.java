@@ -20,13 +20,19 @@ import javax.swing.JOptionPane;
 
 import org.json.simple.JSONObject;
 
-
+/**
+ * Responsible for handling socket connections between layers
+ * @author gcordts
+ *
+ */
 public class Communicator {
-	private static String IP;
-	private static int PORT;
+	//IP of server
+	private String IP;
+	//Port of server
+	private int PORT;
 	// Connection string to file containing a connection string for the FTP server.
     public static final String CSTRLOC = "http://dl.dropbox.com/u/1031798/lab-connection.txt";
-
+    //Singleton instance
 	private static Communicator instance;
 	public static Communicator get()
 	{
@@ -36,8 +42,13 @@ public class Communicator {
 		}
 		return instance;
 	}
+	//Socket connection
 	private Socket mySock;
+	//Queue to be filled of data to send to server
 	private LinkedBlockingQueue<String> outQueue;
+	/**
+	 * Construct a new coommunicator object
+	 */
 	public Communicator()
 	{
 		fillServerInfo();
@@ -59,6 +70,10 @@ public class Communicator {
 			System.exit(1);
 		}
 	}
+	/**
+	 * Contact the text file specified in CSTRLOC and download the IP and
+	 * port of the server from the text file
+	 */
 	private void fillServerInfo()
 	{
 		 //Far too optimistic error handling. Everything crashes if there's no
@@ -88,15 +103,29 @@ public class Communicator {
                 System.exit(1);
         }
 	}
+	/**
+	 * Send a request string to the server
+	 * @param command action to perform
+	 * @param params parameters to supplement the action
+	 */
 	public void request(String command, JSONObject params)
 	{
 		params.put("request", command);
 		send(params.toJSONString());
 	}
+	/**
+	 * Send raw data to the server - use request instead
+	 * @param command data to send
+	 */
 	public void send(String command)
 	{
 		outQueue.add(command);
 	}
+	/**
+	 * Thread responsible for reading data from server
+	 * @author gcordts
+	 *
+	 */
 	private static class InputReader implements Runnable
 	{
 		private InputStream is;
@@ -107,6 +136,10 @@ public class Communicator {
 			this.is = is;
 			this.ih = ih;
 		}
+		
+		/**
+		 * Receive data until CRLF is encountered 
+		 */
 		@Override
 		public void run() {
 			Character lastOne = null;
@@ -144,6 +177,11 @@ public class Communicator {
 			
 		}
 	}
+	/**
+	 * Thread responsible for sending data to server
+	 * @author gcordts
+	 *
+	 */
 	private static class OutputWriter implements Runnable
 	{
 		private OutputStream os;
@@ -155,6 +193,9 @@ public class Communicator {
 			bw = new BufferedWriter(new OutputStreamWriter(os));
 			this.queue = queue;
 		}
+		/**
+		 * Takes items from output queue and sends them
+		 */
 		public void run()
 		{
 			BufferedWriter logWriter = null;

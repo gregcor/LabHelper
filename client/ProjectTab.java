@@ -16,11 +16,21 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
+/**
+ * UI element responsible for launching projects
+ * @author gcordts
+ *
+ */
 public class ProjectTab extends JPanel {
+	//Panel containing the project selector
 	private JPanel projectPanel;
+	//Label listing current path location
 	private JLabel pathLabel;
+	//Label listing current bluej location
 	private JLabel bluejLabel; 
+	/**
+	 * Create and populate tab
+	 */
 	public ProjectTab()
 	{
 		super();
@@ -73,7 +83,11 @@ public class ProjectTab extends JPanel {
 			fillBlueJ(bluej);
 		}
 	}
-
+	/**
+	 * Abbreviate a string two 20 chars plus ellipsis
+	 * @param text
+	 * @return
+	 */
 	private static String getShortString(String text)
 	{
 		if(text.length()>20)
@@ -85,10 +99,19 @@ public class ProjectTab extends JPanel {
 			return text;
 		}
 	}
+	/**
+	 * Fill blueJ label with short name
+	 * @param path
+	 */
 	private void fillBlueJ(String path)
 	{
 		bluejLabel.setText(getShortString(path));
 	}
+	/**
+	 * Fill workspace label with short name
+	 * Initialize drop-down list for project selection and attach events
+	 * @param path
+	 */
 	private void fillWorkspace(String path)
 	{
 		projectPanel = new JPanel();
@@ -123,6 +146,10 @@ public class ProjectTab extends JPanel {
 			return;
 		}
 	}
+	/**
+	 * Populate project list for current project
+	 * @param projects
+	 */
 	private void fillProjects(List<ProjectInfo> projects)
 	{
 		Map<String,ProjectInfo> projectList = new HashMap<String,ProjectInfo>();
@@ -148,8 +175,6 @@ public class ProjectTab extends JPanel {
 					return;
 				}
 				ProjectInfo chosen = (ProjectInfo) jcb.getSelectedItem();
-				if(chosen.getName()==null)
-					return;
 				chosen.launchProject();
 			}});
 		projectPanel.add(okButton);

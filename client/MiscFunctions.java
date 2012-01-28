@@ -23,16 +23,26 @@ import javax.swing.JOptionPane;
 
 import org.json.simple.JSONObject;
 
-
+/**
+ * Class containing some miscellaneous client functions
+ * @author gcordts
+ *
+ */
 public class MiscFunctions {
 	static ArrayList<JFrame> lockFrames;
+	/**
+	 * Call this only once - it sets up listeners for some other
+	 * client behaviors (alerts, lock/unlock)
+	 */
 	public static void registerMiscFunctions()
 	{
+		//Handle alert from server
 		InputHandler.get().registerInput("alert", new InputProcessor(){
 			public void processInput(JSONObject input) {
 				String text = (String) input.get("text");
 				JOptionPane.showMessageDialog(null, text);
 			}});
+		//URL from server
 		InputHandler.get().registerInput("url", new InputProcessor(){
 			public void processInput(JSONObject input) {
 				final String text = (String) input.get("text");
@@ -58,6 +68,7 @@ public class MiscFunctions {
 				toShow.pack();
 				toShow.setVisible(true);
 			}});
+		//Unlock requuest from server
 		InputHandler.get().registerInput("unlock", new InputProcessor(){
 			public void processInput(JSONObject input) {
 				if(lockFrames!=null)
@@ -70,6 +81,7 @@ public class MiscFunctions {
 				}
 				lockFrames = new ArrayList<JFrame>();
 			}});
+		//Lock request from server
 		InputHandler.get().registerInput("lock", new InputProcessor(){
 			public void processInput(JSONObject input) {
 				if(lockFrames!=null)

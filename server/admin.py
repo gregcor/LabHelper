@@ -1,3 +1,7 @@
+"""Command line admin-interface.
+Should be run from the server. Protected by password
+specified in the config file as adminpassword.
+"""
 import socket
 import getpass
 import json
@@ -13,6 +17,9 @@ MENU = """1) Alert
 """
 
 def main():
+    """Main method for connecting to the server.
+    Provides a menu loop for the user
+    """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((HOST,PORT))
     password = getpass.getpass()

@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,12 +29,28 @@ public class LabHelperFrame extends JFrame {
 		}
 		return instance;
 	}
+	private JProgressBar progress;
+	public void startProgress()
+	{  	
+		progress.setIndeterminate(true);
+		progress.setVisible(true);
+		repaint();
+	}
+	public void stopProgress()
+	{
+		progress.setVisible(false);
+		progress.setIndeterminate(false);
+		repaint();
+	}
 	private LabHelperFrame()
 	{
-		super("LabHelper... Connecting");
+		super("LabHelper - Not logged in");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		final LabHelperFrame self = this;
+		final JTabbedPane tabs = new JTabbedPane();
+		this.add(tabs, BorderLayout.CENTER);
+		this.setMinimumSize(new Dimension(300,200));
 		
 		InputHandler.get().registerInput("loggedin", new InputProcessor(){
 			public void processInput(JSONObject input) {
@@ -44,12 +61,14 @@ public class LabHelperFrame extends JFrame {
 				Options.get().storeOption("activity", activity);
 				UserInfo.create(fname, lname, uname);
 				self.setTitle("LabHelper - Logged in as "+uname);
+				stopProgress();
+				tabs.addTab("Project Info", makeProjectTab());
 			}});
+		progress = new JProgressBar();
+		this.add(progress, BorderLayout.SOUTH); 
 		
-		JTabbedPane tabs = new JTabbedPane();
 		this.add(tabs, BorderLayout.CENTER);
 		tabs.addTab("User Info",makeLoginTab());
-		tabs.addTab("Project Info", makeProjectTab());
 		//tabs.addTab("Debug", makeDebugTab());
 		this.pack();
 	}
